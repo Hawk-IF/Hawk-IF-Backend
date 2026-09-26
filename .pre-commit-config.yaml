@@ -1,0 +1,46 @@
+exclude : ^migrations/.*\.py 
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.2.0
+  hooks:
+    - id: trailing-whitespace
+      files: ^hawkBackend/.*\.py$
+    - id: end-of-file-fixer
+      files: ^hawkBackend/.*\.py$
+    - id: check-yaml
+      files: ^hawkBackend/.*\.ya?ml$
+    - id: check-added-large-files
+      files: ^hawkBackend/.*$
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.14.11
+  hooks:
+    - id: ruff
+      args: [--fix]
+      files: ^hawkBackend/.*\.py$
+      exclude: ^hawkBackend/(tests|.*/migrations)/.*\.py$
+
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.13.2
+  hooks:
+    - id: isort
+      name: isort (python)
+      args: [--profile, black, --filter-files]
+      files: ^hawkBackend.*\.py$
+
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.13.0
+  hooks:
+    - id: mypy
+      files: ^hawkBackend.*\.py$
+      exclude: ^hawkBackend/tests/
+      additional_dependencies:
+        - pydantic
+        - types-redis
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+    - id: debug-statements
+      files: ^hawkBackend.*\.py$
