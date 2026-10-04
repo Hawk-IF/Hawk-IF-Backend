@@ -1,0 +1,8 @@
+[importlinter]
+root_package = hawkBackend
+
+[importlinter:contract:camadas]
+name = contrato de camadas da aplicação
+type = layers
+layers =
+    hawkBackend.domain   
