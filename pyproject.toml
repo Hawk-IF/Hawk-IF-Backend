@@ -9,5 +9,6 @@ dependencies = []
 [dependency-groups]
 dev = [
     "faker>=40.39.0",
+    "import-linter>=2.15",
     "pytest>=9.1.1",
 ]

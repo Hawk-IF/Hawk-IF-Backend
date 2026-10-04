@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -40,15 +41,36 @@ class NotNullValidation(
 class TypeValidator(
     ValidationProtocol
 ):
-    def __init__(self, field):
+    def __init__(self, field , type : Any = None):
         self.field = field
-        self.erro_message = f"{field} has incorrect type"
+        self.type = type
+        self.erro_message = self.create_erro_message()
 
-    def validate[T](self , value : T , value_type : Any = None):
-        type = value_type
-        self.erro_message = self.create_erro_message(type)
-        if not isinstance(value , type):
+    def create_erro_message(self, *args, **kwargs):
+        return f"{self.field} must be of type: {self.type}"
+
+    def validate[T](self , value : T , value_type : Any | None = None):
+        validate_type = value_type or self.type
+        if not isinstance(value , validate_type):
             return self.erro_message
 
-    def create_erro_message(self , type : Any):
-        return f"{self.field} must be of type {type}"
+class CorrectTypeOrNoneValidator(
+    TypeValidator
+):
+    def validate(self, value, value_type = None):
+        if value is None:
+            return None
+        return super().validate(value, value_type)
+
+    def create_erro_message(self):
+        return super().create_erro_message().join(" or none")
+
+class NotFutureDateValidator(
+    ValidationProtocol
+):
+    erro_message = "can't be a future date"
+
+    def validate(self, value : datetime):
+        now = datetime.now(timezone.utc)
+        if value > now:
+            return self.erro_message
