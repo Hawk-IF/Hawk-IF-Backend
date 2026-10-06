@@ -1,5 +1,6 @@
 from hawkBackend.domain.validations import ValidationProtocol
 
+
 class FieldValidator:
     def __init__(self, rules: list[ValidationProtocol]) -> None:
         self.rules = rules

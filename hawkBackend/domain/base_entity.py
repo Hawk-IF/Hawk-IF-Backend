@@ -3,8 +3,8 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from uuid import UUID, uuid4
 
-from hawkBackend.domain.guards import BaseGuard
 from hawkBackend.domain.exceptions.validate_exceptions import ValidateException
+from hawkBackend.domain.guards import BaseGuard
 
 
 class BaseEntity:
